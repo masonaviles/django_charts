@@ -2,7 +2,7 @@
 
 {% block content %}
 {% with
-  layout="flex flex-col gap-8"
+  layout="flex flex-col gap-8 pt-8 px-8"
   main_area="flex-1"
   card="bg-white/95 dark:bg-gray-900/95 p-6 rounded-lg shadow drop-shadow-lg w-full"
   card_half="bg-white/95 dark:bg-gray-900/95 p-6 rounded-lg shadow drop-shadow-lg w-1/2"
@@ -46,13 +46,8 @@
     document.getElementById("chart-data").textContent
   );
 
-  const chartInstances = {};
-
-  function renderChart(id) {
-    const ctx = document.getElementById(id).getContext("2d");
-    if (chartInstances[id]) chartInstances[id].destroy();
-
-    chartInstances[id] = new Chart(ctx, {
+  ["chart1", "chart2", "chart3"].forEach((id) => {
+    new Chart(document.getElementById(id), {
       type: "bar",
       data: {
         labels,
@@ -64,16 +59,9 @@
       },
       options: {
         responsive: true,
-        maintainAspectRatio: true
+        maintainAspectRatio: false
       }
     });
-  }
-
-  ["chart1", "chart2", "chart3"].forEach(renderChart);
-
-  // Optional: hook into Alpine sidebar toggle if needed
-  window.resizeCharts = () => {
-    Object.values(chartInstances).forEach(chart => chart.resize());
-  };
+  });
 </script>
 {% endblock %}
