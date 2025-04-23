@@ -1,34 +1,39 @@
-{% extends "base.html" %} {% block content %}
-<div class="p-6 max-w-4xl mx-auto">
-  <h1 class="text-3xl font-bold mb-4">AG Dashboard</h1>
+{% extends "base.html" %}
+{% block content %}
 
-  <div class="bg-white p-4 rounded-lg shadow mb-6">
-    <canvas id="chart" class="w-full max-w-xl"></canvas>
-  </div>
+{% with layout="flex min-h-screen" sidebar="w-64 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100 border-r p-6" nav_link="block px-2 py-1 rounded hover:text-blue-600 dark:hover:text-blue-400" nav_logout="text-red-600 hover:underline" main_area="flex-1 p-8 bg-gray-50 dark:bg-gray-800" card="bg-white dark:bg-gray-900 p-6 rounded-lg shadow" %}
+
+<div class="{{ layout }}">
+
+  <!-- Main content -->
+  <main class="{{ main_area }}">
+    <h1 class="text-2xl font-bold mb-6">Welcome, {{ request.session.user }}</h1>
+
+    <div class="{{ card }}">
+      <canvas id="chart" class="w-full max-w-xl"></canvas>
+    </div>
+  </main>
 </div>
 
 <script>
-  const ctx = document.getElementById("chart").getContext("2d");
-  new Chart(ctx, {
+  const { labels, values } = JSON.parse(
+    document.getElementById("chart-data").textContent
+  );
+
+  new Chart(document.getElementById("chart"), {
     type: "bar",
     data: {
-      labels: ["Red", "Blue", "Yellow"],
+      labels,
       datasets: [
         {
           label: "Votes",
-          data: [12, 19, 3],
+          data: values,
           backgroundColor: ["#f87171", "#60a5fa", "#facc15"],
         },
       ],
     },
   });
-
-  Toastify({
-    text: "Welcome to AG Dashboard",
-    duration: 3000,
-    gravity: "top",
-    position: "right",
-    backgroundColor: "#10b981",
-  }).showToast();
 </script>
+
+{% endwith %}
 {% endblock %}

@@ -1,0 +1,16 @@
+{% with sidebar="w-64 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100 border-r p-6" nav_link="block px-2 py-1 rounded hover:text-blue-600 dark:hover:text-blue-400" nav_logout="text-red-600 hover:underline" %}
+  <aside class="{{ sidebar }}" x-data="{ darkMode: localStorage.getItem('theme') === 'dark' }" x-init="$watch('darkMode', val => { document.documentElement.classList.toggle('dark', val); localStorage.setItem('theme', val ? 'dark' : 'light') })">
+    <!-- Dark Mode Toggle -->
+    <button id="dark-toggle" class="mb-4 px-2 py-1 rounded border border-gray-300 dark:border-gray-600 text-sm hover:bg-gray-100 dark:hover:bg-gray-800">
+      Toggle Dark Mode
+    </button>
+    
+    <h2 class="text-lg font-bold mb-6">AG Dashboard</h2>
+    <ul class="space-y-2 mb-6">
+      <li><a href="#" class="{{ nav_link }}">Overview</a></li>
+      <li><a href="#" class="{{ nav_link }}">Reports</a></li>
+      <li><a href="{% url 'logout' %}" class="{{ nav_logout }}">Logout</a></li>
+    </ul>
+
+  </aside>
+{% endwith %}
