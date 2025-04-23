@@ -2,27 +2,39 @@
 
 {% block content %}
 {% with
-  layout="flex"
-  sidebar="w-64 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100 border-r p-6"
-  nav_link="block px-2 py-0 rounded hover:text-blue-600 dark:hover:text-blue-400"
-  nav_logout="text-red-600 hover:underline"
-  main_area="flex-1 px-8 bg-gray-50 dark:bg-gray-800"
-  card="bg-white dark:bg-gray-900 p-6 rounded-lg shadow drop-shadow-lg"
+  layout="flex flex-col gap-8"
+  main_area="flex-1"
+  card="bg-white/95 dark:bg-gray-900/95 p-6 rounded-lg shadow drop-shadow-lg w-full"
+  card_half="bg-white/95 dark:bg-gray-900/95 p-6 rounded-lg shadow drop-shadow-lg w-1/2"
+  card_container="flex flex-col gap-6"
 %}
 
 <div class="{{ layout }}">
-  <main class="{{ main_area }}">
+  <div class="{{ main_area }}">
     <h1 class="text-2xl font-bold mb-6">Welcome, {{ request.session.user }}</h1>
 
-    <div class="{{ card }}">
-      <canvas id="chart" class="w-full max-w-xl h-80"></canvas>
+    <div class=" {{ card_container }}">
+
+      <div class="{{ card }}">
+        <canvas id="chart1" class="w-full h-60"></canvas>
+      </div>
+
+      <div class="flex gap-6">
+        <div class="{{ card_half }}">
+          <canvas id="chart2" class="w-full h-60"></canvas>
+        </div>
+        <div class="{{ card_half }}">
+          <canvas id="chart3" class="w-full h-60"></canvas>
+        </div>
+      </div>
+
     </div>
 
     <!-- Chart data blob -->
     <script id="chart-data" type="application/json">
       {{ chart_data|safe }}
     </script>
-  </main>
+  </div>
 </div>
 
 {% endwith %}
@@ -34,20 +46,34 @@
     document.getElementById("chart-data").textContent
   );
 
-  new Chart(document.getElementById("chart"), {
-    type: "bar",
-    data: {
-      labels,
-      datasets: [{
-        label: "Votes",
-        data: values,
-        backgroundColor: ["#f87171", "#60a5fa", "#facc15"],
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false
-    }
-  });
+  const chartInstances = {};
+
+  function renderChart(id) {
+    const ctx = document.getElementById(id).getContext("2d");
+    if (chartInstances[id]) chartInstances[id].destroy();
+
+    chartInstances[id] = new Chart(ctx, {
+      type: "bar",
+      data: {
+        labels,
+        datasets: [{
+          label: "Votes",
+          data: values,
+          backgroundColor: ["#f87171", "#60a5fa", "#facc15"],
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: true
+      }
+    });
+  }
+
+  ["chart1", "chart2", "chart3"].forEach(renderChart);
+
+  // Optional: hook into Alpine sidebar toggle if needed
+  window.resizeCharts = () => {
+    Object.values(chartInstances).forEach(chart => chart.resize());
+  };
 </script>
 {% endblock %}

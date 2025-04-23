@@ -14,16 +14,18 @@
   </head>
 
   <body class="text-gray-900 bg-gray-100 dark:text-white dark:bg-gray-900">
-    <div class="flex min-h-screen">
+    <div class="flex min-h-screen" id="background">
       {% include "components/sidebar.html" %}
 
-      <main class="flex-1 p-8 bg-gray-50 dark:bg-gray-800">
+      <main class="flex-1 p-8">
         {% block content %}{% endblock %}
       </main>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="{% static 'js/app.js' %}"></script>
+    <script src="{% static 'js/background.js' %}"></script>
     {% block scripts %}{% endblock %}
     <script>
       document.addEventListener('DOMContentLoaded', () => {
