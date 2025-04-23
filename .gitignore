@@ -1,0 +1,65 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Django stuff:
+*.log
+*.pot
+*.pyc
+*.sqlite3
+*.db
+db.sqlite3
+media/
+staticfiles/
+local_settings.py
+
+# dotenv and secrets
+.env
+.env.*
+
+# Django migration backups
+**/migrations/*.pyc
+**/migrations/__pycache__/
+**/migrations/*.pyo
+**/migrations/*.bak
+
+# VSCode
+.vscode/
+
+# PyCharm
+.idea/
+
+# macOS
+.DS_Store
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnp/
+.pnp.js
+
+# Tailwind / PostCSS builds
+build/
+dist/
+*.css.map
+
+# Compiled frontend
+static/css/
+static/js/
+
+# Coverage reports
+htmlcov/
+.coverage
+.tox/
+.coverage.*
+
+# Others
+*.log
+*.bak
+*.tmp
+*.swp
+*.swo
+*.swn
