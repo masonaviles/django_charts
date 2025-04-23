@@ -1,11 +1,11 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render
+import json
 
 def dashboard(request):
-    if not request.session.get("user"):
-        return redirect("login")
-    
     chart_data = {
-        "labels": ["Red", "Blue", "Yellow"],
-        "values": [12, 19, 3],
+        "labels": ["Alpha", "Beta", "Gamma"],
+        "values": [30, 55, 15]
     }
-    return render(request, "core/dashboard.html", {"chart_data": chart_data})
+    return render(request, "core/dashboard.html", {
+        "chart_data": json.dumps(chart_data)
+    })
